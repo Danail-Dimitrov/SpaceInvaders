@@ -4,11 +4,13 @@ Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
+	this->initPlayer();
 }
 
 Game::~Game()
 {
 	delete this->window;
+	delete this->player;
 }
 
 void Game::run()
@@ -47,9 +49,21 @@ void Game::pollEvents()
 	}
 }
 
+void Game::update()
+{
+	this->player->update();
+}
+
+void Game::render()
+{
+	this->window->clear();
+	this->player->render(*this->window);
+	this->window->display();
+}
+
 void Game::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode({ 800, 600 }), "Space Invaders", sf::Style::Close | sf::Style::Titlebar);
+	this->window = new sf::RenderWindow(sf::VideoMode({ 1000, 1000 }), "Space Invaders", sf::Style::Close | sf::Style::Titlebar);
 	this->window->setFramerateLimit(this->fps);
 	this->window->setVerticalSyncEnabled(false);
 }
@@ -58,6 +72,11 @@ void Game::initVariables()
 {
 	this->window = nullptr;
 	this->fps = 60;
+}
+
+void Game::initPlayer()
+{
+	this->player = new Player();
 }
 
 bool Game::isRunning()

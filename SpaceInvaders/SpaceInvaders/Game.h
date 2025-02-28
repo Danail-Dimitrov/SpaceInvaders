@@ -1,6 +1,5 @@
 #pragma once
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
+#include "Player.h"
 
 class Game
 {
@@ -12,6 +11,8 @@ public:
 private:
 	const double MS_PER_UPDATE = 16.0;
 
+	Player* player;
+
 	sf::RenderWindow* window;
 	short fps;
 
@@ -21,6 +22,7 @@ private:
 
 	void initWindow();
 	void initVariables();
+	void initPlayer();
 
 	bool isRunning();
 };
