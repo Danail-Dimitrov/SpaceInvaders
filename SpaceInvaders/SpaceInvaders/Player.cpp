@@ -15,6 +15,7 @@ Player::~Player()
 
 void Player::update()
 {
+	this->updateMovment();
 }
 
 void Player::render(sf::RenderTarget& target)
@@ -64,4 +65,8 @@ void Player::initEngineAnimationSprite()
 	this->currentFrame = sf::IntRect(sf::Vector2i(13, 30), sf::Vector2i(21, 6));
 	this->engineAnimationSprite->setTextureRect(this->currentFrame);
 	this->engineAnimationSprite->setPosition({ 510, 930 });
+}
+
+void Player::updateMovment()
+{
 }

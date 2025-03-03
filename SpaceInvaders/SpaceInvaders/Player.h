@@ -29,5 +29,7 @@ private:
 	void initShipSprite();
 	void initEngineSprite();
 	void initEngineAnimationSprite();
+
+	void updateMovment();
 };
 
