@@ -2,15 +2,15 @@
 
 Player::Player()
 {
-	this->initTextures();
-	this->initSprites();
+	this->initShipSprite();
+	this->initEngineSprite();
+	this->initEngineAnimationSprite();
+	this->initKeyBindings();
 }
 
 Player::~Player()
 {
-	delete this->shipSprite;
-	delete this->engineSprite;
-	delete this->engineAnimationSprite;
+	delete this->ship;
 }
 
 void Player::update()
@@ -20,53 +20,71 @@ void Player::update()
 
 void Player::render(sf::RenderTarget& target)
 {
-	target.draw(*this->shipSprite);
-	target.draw(*this->engineSprite);
-	target.draw(*this->engineAnimationSprite);
-}
-
-void Player::initTextures()
-{
-	if (!this->shipTexture.loadFromFile("Textures/Ship.png"))
-		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
-	
-	if (!this->engineTexture.loadFromFile("Textures/Engine.png"))
-		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
-
-	if (!this->engineAnimationTexture.loadFromFile("Textures/EngineAnimations.png"))
-		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
-}
-
-void Player::initSprites()
-{
-	this->initShipSprite();
-	this->initEngineSprite();
-	this->initEngineAnimationSprite();
+	this->ship->render(target);
 }
 
 void Player::initShipSprite()
 {
-	this->shipSprite = new sf::Sprite(this->shipTexture);
-	this->shipSprite->setScale({ 2.3f, 2.3f });
-	this->shipSprite->setPosition({ 480, 860 });
+	sf::Texture* texture = new sf::Texture();
+	if (!texture->loadFromFile("Textures/Ship.png"))
+		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
+
+	sf::Sprite* sprite = new sf::Sprite(*texture);
+	sprite->setScale({ 2.3f, 2.3f });
+	sprite->setPosition({ 480, 860 });
+
+	this->ship = new TextureNode(texture, sprite, { 0.f, 0.f });
 }
 
 void Player::initEngineSprite()
 {
-	this->engineSprite = new sf::Sprite(this->engineTexture);
-	this->engineSprite->setScale({ 2.3f, 2.3f });
-	this->engineSprite->setPosition({ 480, 860 });
+	sf::Texture* texture = new sf::Texture();
+	if (!texture->loadFromFile("Textures/Engine.png"))
+		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
+	
+	sf::Sprite* sprite = new sf::Sprite(*texture);
+	sprite->setScale({ 2.3f, 2.3f });
+	sprite->setPosition({ 480, 860 });
+
+	this->ship->addChild(texture, sprite, { 0.f, 0.f });
 }
 
 void Player::initEngineAnimationSprite()
 {
-	this->engineAnimationSprite = new sf::Sprite(this->engineAnimationTexture);
-	this->engineAnimationSprite->setScale({ 2.3f, 2.3f });
-	this->currentFrame = sf::IntRect(sf::Vector2i(13, 30), sf::Vector2i(21, 6));
-	this->engineAnimationSprite->setTextureRect(this->currentFrame);
-	this->engineAnimationSprite->setPosition({ 510, 930 });
+	sf::Texture* texture = new sf::Texture();
+	if (!texture->loadFromFile("Textures/EngineAnimations.png"))
+		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
+
+	sf::Sprite* sprite = new sf::Sprite(*texture);
+	sprite->setScale({ 2.3f, 2.3f });
+	this->currentEngineFrame = sf::IntRect(sf::Vector2i(13, 30), sf::Vector2i(21, 6));
+	sprite->setTextureRect(this->currentEngineFrame);
+}
+
+void Player::initKeyBindings()
+{
+	this->keyBindings[Constants::MOVE_UP] = sf::Keyboard::Key::W;
+	this->keyBindings["DOWN"] = sf::Keyboard::Key::S;
+	this->keyBindings["LEFT"] = sf::Keyboard::Key::A;
+	this->keyBindings["RIGHT"] = sf::Keyboard::Key::D;
 }
 
 void Player::updateMovment()
 {
+	
+}
+
+void Player::updateMovment(const float dirX, const float dirY)
+{
+
+}
+
+TextureNode* Player::getEngine()
+{
+	return this->ship->getChildren()[0];
+}
+
+TextureNode* Player::getEngineAnimations()
+{
+	return getEngine()->getChildren()[0];
 }
