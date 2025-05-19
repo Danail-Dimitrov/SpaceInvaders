@@ -44,7 +44,7 @@ void Player::addYVelocityMult(float y)
 
 void Player::initVariables()
 {
-	this->velocity = 2.f;
+	this->velocity = 0.f;
 	this->maxVelocityMultiplier = 10.f;
 }
 

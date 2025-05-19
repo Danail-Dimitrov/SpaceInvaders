@@ -18,6 +18,7 @@ public:
 
 	void addXVelocityMult(float x);
 	void addYVelocityMult(float y);
+	void resetVelocityMultiplier() { this->velocityMultiplier = { 0.f, 0.f }; }
 
 private:
 	// Sprites
