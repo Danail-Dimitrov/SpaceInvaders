@@ -43,6 +43,11 @@ void TextureNode::addChild(sf::Texture* texture, sf::Sprite* sprite, sf::Vector2
 	this->children.push_back(child);
 }
 
+void TextureNode::setSpriteRect(const sf::IntRect& rect)
+{
+	this->sprite->setTextureRect(rect);
+}
+
 void TextureNode::render(sf::RenderTarget& target)
 {
 	target.draw(*this->sprite);
@@ -53,4 +58,9 @@ void TextureNode::render(sf::RenderTarget& target)
 std::vector<TextureNode*> TextureNode::getChildren()
 {
 	return this->children;
+}
+
+sf::Sprite* TextureNode::getSprite()
+{
+	return this->sprite;
 }

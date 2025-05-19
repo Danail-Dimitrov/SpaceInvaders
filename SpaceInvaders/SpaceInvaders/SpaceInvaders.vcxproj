@@ -135,7 +135,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Commands\GoUp.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -144,8 +143,6 @@
     <ClCompile Include="Utilities\TextureNode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Commands\Command.h" />
-    <ClInclude Include="Commands\GoUp.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />

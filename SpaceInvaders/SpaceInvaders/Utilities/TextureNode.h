@@ -20,10 +20,12 @@ public:
     // Adds a child to the current node
     // The position of the child will be recalcuated based on the curent nodes position and the offset
     void addChild(sf::Texture* texture, sf::Sprite* sprite, sf::Vector2f offset);
+	void setSpriteRect(const sf::IntRect& rect);
 
     void render(sf::RenderTarget& target);
 
     std::vector<TextureNode*> getChildren();
+	sf::Sprite* getSprite();
     
 private:
     sf::Texture* texture;

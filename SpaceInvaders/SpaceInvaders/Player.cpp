@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+	this->initVariables();
 	this->initShipSprite();
 	this->initEngineSprite();
 	this->initEngineAnimationSprite();
@@ -23,6 +24,30 @@ void Player::render(sf::RenderTarget& target)
 	this->ship->render(target);
 }
 
+void Player::addXVelocityMult(float x)
+{
+	this->velocityMultiplier.x += x;
+	if (this->velocityMultiplier.x > this->maxVelocityMultiplier)
+		this->velocityMultiplier.x = this->maxVelocityMultiplier;
+	else if (this->velocityMultiplier.x < -1 * this->maxVelocityMultiplier)
+		this->velocityMultiplier.x = -1 * this->maxVelocityMultiplier;
+}
+
+void Player::addYVelocityMult(float y)
+{
+	this->velocityMultiplier.y += y;
+	if (this->velocityMultiplier.y > this->maxVelocityMultiplier)
+		this->velocityMultiplier.y = this->maxVelocityMultiplier;
+	else if (this->velocityMultiplier.y < -1 * this->maxVelocityMultiplier)
+		this->velocityMultiplier.y = -1 * this->maxVelocityMultiplier;
+}
+
+void Player::initVariables()
+{
+	this->velocity = 2.f;
+	this->maxVelocityMultiplier = 10.f;
+}
+
 void Player::initShipSprite()
 {
 	sf::Texture* texture = new sf::Texture();
@@ -30,6 +55,8 @@ void Player::initShipSprite()
 		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
 
 	sf::Sprite* sprite = new sf::Sprite(*texture);
+	auto frame = sf::IntRect(sf::Vector2i(10, 12), sf::Vector2i(30, 28));
+	sprite->setTextureRect(frame);
 	sprite->setScale({ 2.3f, 2.3f });
 	sprite->setPosition({ 480, 860 });
 
@@ -43,10 +70,11 @@ void Player::initEngineSprite()
 		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
 	
 	sf::Sprite* sprite = new sf::Sprite(*texture);
+	auto frame = sf::IntRect(sf::Vector2i(12, 20), sf::Vector2i(30, 28));
+	sprite->setTextureRect(frame);
 	sprite->setScale({ 2.3f, 2.3f });
-	sprite->setPosition({ 480, 860 });
 
-	this->ship->addChild(texture, sprite, { 0.f, 0.f });
+	this->ship->addChild(texture, sprite, { 5.f, 23.f });
 }
 
 void Player::initEngineAnimationSprite()
@@ -56,27 +84,32 @@ void Player::initEngineAnimationSprite()
 		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
 
 	sf::Sprite* sprite = new sf::Sprite(*texture);
+	auto frame = sf::IntRect(sf::Vector2i(14, 79), sf::Vector2i(21, 6));
+	sprite->setTextureRect(frame);
 	sprite->setScale({ 2.3f, 2.3f });
-	this->currentEngineFrame = sf::IntRect(sf::Vector2i(13, 30), sf::Vector2i(21, 6));
-	sprite->setTextureRect(this->currentEngineFrame);
+	this->ship->getChildren()[0]->addChild(texture, sprite, { 5.f, 24.f });
 }
 
 void Player::initKeyBindings()
 {
 	this->keyBindings[Constants::MOVE_UP] = sf::Keyboard::Key::W;
-	this->keyBindings["DOWN"] = sf::Keyboard::Key::S;
-	this->keyBindings["LEFT"] = sf::Keyboard::Key::A;
-	this->keyBindings["RIGHT"] = sf::Keyboard::Key::D;
+	this->keyBindings[Constants::MOVE_DOWN] = sf::Keyboard::Key::S;
+	this->keyBindings[Constants::MOVE_LEFT] = sf::Keyboard::Key::A;
+	this->keyBindings[Constants::MOVE_RIGHT] = sf::Keyboard::Key::D;
+}
+
+void Player::updateInput()
+{
+	if (sf::Keyboard::isKeyPressed(this->keyBindings[Constants::MOVE_UP]))
+		this->addYVelocityMult(0.5f);
 }
 
 void Player::updateMovment()
 {
+	float newX = this->ship->getSprite()->getPosition().x + this->velocity * this->velocityMultiplier.x;
+	float newY = this->ship->getSprite()->getPosition().y + this->velocity * this->velocityMultiplier.y;
 	
-}
-
-void Player::updateMovment(const float dirX, const float dirY)
-{
-
+	this->ship->move({ newX, newY });
 }
 
 TextureNode* Player::getEngine()
