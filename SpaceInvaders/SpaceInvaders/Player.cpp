@@ -1,7 +1,11 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(PlayerInputComponent* inputComponent,
+	PhysicsComponent* physicsComponent)
 {
+	this->inputComponent = inputComponent;
+	this->physicsComponent = physicsComponent;
+
 	this->initVariables();
 	this->initShipSprite();
 	this->initEngineSprite();
@@ -12,11 +16,14 @@ Player::Player()
 Player::~Player()
 {
 	delete this->ship;
+	delete this->inputComponent;
+	delete this->physicsComponent;
 }
 
-void Player::update()
+void Player::update(float deltaTime)
 {
-	this->updateMovment();
+	this->inputComponent->update(*this, this->keyBindings);
+	this->physicsComponent->update(*this, deltaTime);
 }
 
 void Player::render(sf::RenderTarget& target)
@@ -26,26 +33,25 @@ void Player::render(sf::RenderTarget& target)
 
 void Player::addXVelocityMult(float x)
 {
-	this->velocityMultiplier.x += x;
-	if (this->velocityMultiplier.x > this->maxVelocityMultiplier)
-		this->velocityMultiplier.x = this->maxVelocityMultiplier;
-	else if (this->velocityMultiplier.x < -1 * this->maxVelocityMultiplier)
-		this->velocityMultiplier.x = -1 * this->maxVelocityMultiplier;
+	this->velocity.x += x;
+	if (this->velocity.x > this->maxVelocityMultiplier)
+		this->velocity.x = this->maxVelocityMultiplier;
+	else if (this->velocity.x < -1 * this->maxVelocityMultiplier)
+		this->velocity.x = -1 * this->maxVelocityMultiplier;
 }
 
 void Player::addYVelocityMult(float y)
 {
-	this->velocityMultiplier.y += y;
-	if (this->velocityMultiplier.y > this->maxVelocityMultiplier)
-		this->velocityMultiplier.y = this->maxVelocityMultiplier;
-	else if (this->velocityMultiplier.y < -1 * this->maxVelocityMultiplier)
-		this->velocityMultiplier.y = -1 * this->maxVelocityMultiplier;
+	this->velocity.y += y;
+	if (this->velocity.y > this->maxVelocityMultiplier)
+		this->velocity.y = this->maxVelocityMultiplier;
+	else if (this->velocity.y < -1 * this->maxVelocityMultiplier)
+		this->velocity.y = -1 * this->maxVelocityMultiplier;
 }
 
 void Player::initVariables()
 {
-	this->velocity = 0.f;
-	this->maxVelocityMultiplier = 10.f;
+	this->maxVelocityMultiplier = 6.f;
 }
 
 void Player::initShipSprite()
@@ -96,20 +102,6 @@ void Player::initKeyBindings()
 	this->keyBindings[Constants::MOVE_DOWN] = sf::Keyboard::Key::S;
 	this->keyBindings[Constants::MOVE_LEFT] = sf::Keyboard::Key::A;
 	this->keyBindings[Constants::MOVE_RIGHT] = sf::Keyboard::Key::D;
-}
-
-void Player::updateInput()
-{
-	if (sf::Keyboard::isKeyPressed(this->keyBindings[Constants::MOVE_UP]))
-		this->addYVelocityMult(0.5f);
-}
-
-void Player::updateMovment()
-{
-	float newX = this->ship->getSprite()->getPosition().x + this->velocity * this->velocityMultiplier.x;
-	float newY = this->ship->getSprite()->getPosition().y + this->velocity * this->velocityMultiplier.y;
-	
-	this->ship->move({ newX, newY });
 }
 
 TextureNode* Player::getEngine()

@@ -7,18 +7,32 @@
 #include "Utilities/TextureNode.h"
 #include "Constants.h"
 
+#include "Components/PlayerInputComponent.h"
+#include "Components/PhysicsComponent.h"
+
+class PlayerInputComponent;
+class PhysicsComponent;
+
 class Player
 {
 public:
-	Player();
+	Player(PlayerInputComponent* inputComponent, PhysicsComponent* physicsComponent);
 	~Player();
 
-	void update();
+	void update(float deltaTime);
 	void render(sf::RenderTarget& target);
 
+	// Velocity management
 	void addXVelocityMult(float x);
 	void addYVelocityMult(float y);
-	void resetVelocityMultiplier() { this->velocityMultiplier = { 0.f, 0.f }; }
+	void resetVelocityMultiplier() { this->velocity = { 0.f, 0.f }; }
+
+	// Setters
+	void setPosition(const sf::Vector2f& position) { this->ship->move(position); }
+
+	// Getters
+	sf::Vector2f getPosition() const { return this->ship->getPosition(); }
+	sf::Vector2f getVelocity() const { return this->velocity; }
 
 private:
 	// Sprites
@@ -29,9 +43,12 @@ private:
 	std::map<std::string, sf::Keyboard::Key> keyBindings;
 
 	// Movment
-	sf::Vector2f velocityMultiplier;
+	sf::Vector2f velocity;
 	float maxVelocityMultiplier;
-	float velocity;
+
+	// Components
+	PlayerInputComponent* inputComponent;
+	PhysicsComponent* physicsComponent;
 
 	// Inits
 	void initVariables();
@@ -39,10 +56,6 @@ private:
 	void initEngineSprite();
 	void initEngineAnimationSprite();
 	void initKeyBindings();
-
-	// Updates
-	void updateInput();
-	void updateMovment();
 
 	// Getters
 	TextureNode* getEngine();

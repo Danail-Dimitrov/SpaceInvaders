@@ -1,5 +1,7 @@
 #pragma once
 #include "Player.h"
+#include "Components/PhysicsComponent.h"
+#include "Components/PlayerInputComponent.h"
 
 class Game
 {
@@ -9,15 +11,13 @@ public:
 	void run();
 
 private:
-	const double MS_PER_UPDATE = 16.0;
-
 	Player* player;
 
 	sf::RenderWindow* window;
 	short fps;
 
 	void pollEvents();
-	void update();
+	void update(float dt);
 	void render();
 
 	void initWindow();

@@ -16,19 +16,14 @@ Game::~Game()
 void Game::run()
 {
     sf::Clock clock;
-    double lag = 0.0;
 
     while (this->isRunning()) {
         sf::Time elapsed = clock.restart();
-        double elapsedMs = elapsed.asMilliseconds();
-        lag += elapsedMs;
+        float dt = elapsed.asMilliseconds();
 
         pollEvents();
 
-        while (lag >= this->MS_PER_UPDATE) {
-            update();
-            lag -= MS_PER_UPDATE;
-        }
+		update(dt);
 
         render();
     }
@@ -49,9 +44,9 @@ void Game::pollEvents()
 	}
 }
 
-void Game::update()
+void Game::update(float dt)
 {
-	this->player->update();
+	this->player->update(dt);
 }
 
 void Game::render()
@@ -76,7 +71,7 @@ void Game::initVariables()
 
 void Game::initPlayer()
 {
-	this->player = new Player();
+	this->player = new Player(new PlayerInputComponent(), new PhysicsComponent());
 }
 
 bool Game::isRunning()

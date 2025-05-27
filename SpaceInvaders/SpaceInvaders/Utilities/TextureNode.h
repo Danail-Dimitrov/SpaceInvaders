@@ -26,6 +26,7 @@ public:
 
     std::vector<TextureNode*> getChildren();
 	sf::Sprite* getSprite();
+	sf::Vector2f getPosition() const { return this->sprite->getPosition(); }
     
 private:
     sf::Texture* texture;

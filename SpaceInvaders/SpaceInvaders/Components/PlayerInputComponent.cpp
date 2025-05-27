@@ -1,17 +1,18 @@
 #include "PlayerInputComponent.h"
 
-const float PlayerInputComponent::VELOCITY = 0.5f;
+// Instead of making the value so small I can make a cooldown for the keypresses. But I found this soulition to be more simple and suitable for the porpose of this tutorial project.
+const float PlayerInputComponent::VELOCITY = 0.04f;
 
-void PlayerInputComponent::update(Player& player)
+void PlayerInputComponent::update(Player& player, std::map<std::string, sf::Keyboard::Key>& keyBindings)
 {
 	bool changed = false;
-	if (sf::Keyboard::isKeyPressed(keyBindings[Constants::MOVE_UP]))
+	if (sf::Keyboard::isKeyPressed(keyBindings[Constants::MOVE_DOWN]))
 	{
 		player.addYVelocityMult(VELOCITY);
 		changed = true;
 	}
 
-	if (sf::Keyboard::isKeyPressed(keyBindings[Constants::MOVE_DOWN]))
+	if (sf::Keyboard::isKeyPressed(keyBindings[Constants::MOVE_UP]))
 	{
 		player.addYVelocityMult(-VELOCITY);
 		changed = true;
@@ -31,9 +32,4 @@ void PlayerInputComponent::update(Player& player)
 
 	if (!changed)
 		player.resetVelocityMultiplier();
-}
-
-PlayerInputComponent::PlayerInputComponent(std::map<std::string, sf::Keyboard::Key> keyBindings)
-{
-	this->keyBindings = keyBindings;
 }

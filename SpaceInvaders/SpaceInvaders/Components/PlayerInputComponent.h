@@ -4,14 +4,13 @@
 #include "../Constants.h"
 #include "../Player.h"
 
+class Player;
+
 class PlayerInputComponent
 {
 public:
-	PlayerInputComponent(std::map<std::string, sf::Keyboard::Key> keyBindings);
-
-	void update(Player& player);
+	void update(Player& player, std::map<std::string, sf::Keyboard::Key>& keyBindings);
 
 private:
 	static const float VELOCITY;
-	std::map<std::string, sf::Keyboard::Key> keyBindings;
 };
