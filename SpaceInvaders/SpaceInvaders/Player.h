@@ -33,6 +33,7 @@ public:
 	// Getters
 	sf::Vector2f getPosition() const { return this->ship->getPosition(); }
 	sf::Vector2f getVelocity() const { return this->velocity; }
+	sf::Vector2f getSize() const { return this->ship->getSize(); }
 
 private:
 	// Sprites

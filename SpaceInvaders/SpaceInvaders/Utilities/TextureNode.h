@@ -27,6 +27,7 @@ public:
     std::vector<TextureNode*> getChildren();
 	sf::Sprite* getSprite();
 	sf::Vector2f getPosition() const { return this->sprite->getPosition(); }
+	sf::Vector2f getSize() const { return sf::Vector2f(this->sprite->getGlobalBounds().size.x, this->sprite->getGlobalBounds().size.y); }
     
 private:
     sf::Texture* texture;

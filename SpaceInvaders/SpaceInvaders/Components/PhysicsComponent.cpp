@@ -2,5 +2,18 @@
 
 void PhysicsComponent::update(Player& player, float deltaTime)
 {
-	player.setPosition(player.getPosition() + player.getVelocity() * deltaTime);
+	float newX = player.getPosition().x + player.getVelocity().x * deltaTime;
+	float newY = player.getPosition().y + player.getVelocity().y * deltaTime;
+	
+	if(newX < 0)
+		newX = 0;
+	else if(newX + player.getSize().x > windowSize.x)
+		newX = windowSize.x - player.getSize().x;
+
+	if (newY < 0)
+		newY = 0;
+	else if (newY + player.getSize().y > windowSize.y)
+		newY = windowSize.y - player.getSize().y;
+
+	player.setPosition(sf::Vector2f(newX, newY));
 }
