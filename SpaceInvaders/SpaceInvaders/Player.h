@@ -9,6 +9,7 @@
 
 #include "Components/PlayerInputComponent.h"
 #include "Components/PhysicsComponent.h"
+#include "Components/ShootingComponent.h"
 
 class PlayerInputComponent;
 class PhysicsComponent;
@@ -16,7 +17,10 @@ class PhysicsComponent;
 class Player
 {
 public:
-	Player(PlayerInputComponent* inputComponent, PhysicsComponent* physicsComponent);
+	Player(PlayerInputComponent* inputComponent, 
+		PhysicsComponent* physicsComponent,
+		ShootingComponent* shootingComponent);
+
 	~Player();
 
 	void update(float deltaTime);
@@ -26,6 +30,9 @@ public:
 	void addXVelocityMult(float x);
 	void addYVelocityMult(float y);
 	void resetVelocityMultiplier() { this->velocity = { 0.f, 0.f }; }
+
+	// Shooting
+	void shoot();
 
 	// Setters
 	void setPosition(const sf::Vector2f& position) { this->ship->move(position); }
@@ -47,12 +54,17 @@ private:
 	sf::Vector2f velocity;
 	float maxVelocityMultiplier;
 
+	// Bullets
+	std::vector<sf::Sprite*> bullets;
+
 	// Components
 	PlayerInputComponent* inputComponent;
 	PhysicsComponent* physicsComponent;
+	ShootingComponent* shootingComponent;
 
 	// Inits
 	void initVariables();
+	void initShip();
 	void initShipSprite();
 	void initEngineSprite();
 	void initEngineAnimationSprite();

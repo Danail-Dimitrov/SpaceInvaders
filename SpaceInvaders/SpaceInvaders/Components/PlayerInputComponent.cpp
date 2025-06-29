@@ -32,4 +32,7 @@ void PlayerInputComponent::update(Player& player, std::map<std::string, sf::Keyb
 
 	if (!changed)
 		player.resetVelocityMultiplier();
+
+	if (sf::Keyboard::isKeyPressed(keyBindings[Constants::SHOOT]))
+		player.shoot();
 }

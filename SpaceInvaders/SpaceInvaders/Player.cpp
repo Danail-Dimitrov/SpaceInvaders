@@ -1,15 +1,15 @@
 #include "Player.h"
 
 Player::Player(PlayerInputComponent* inputComponent,
-	PhysicsComponent* physicsComponent)
+	PhysicsComponent* physicsComponent,
+	ShootingComponent* shootingComponent)
 {
 	this->inputComponent = inputComponent;
 	this->physicsComponent = physicsComponent;
+	this->shootingComponent = shootingComponent;
 
 	this->initVariables();
-	this->initShipSprite();
-	this->initEngineSprite();
-	this->initEngineAnimationSprite();
+	this->initShip();
 	this->initKeyBindings();
 }
 
@@ -49,9 +49,23 @@ void Player::addYVelocityMult(float y)
 		this->velocity.y = -1 * this->maxVelocityMultiplier;
 }
 
+void Player::shoot()
+{
+	sf::Sprite* bullet = this->shootingComponent->shoot(*this);
+	this->bullets.push_back(bullet);
+}
+
 void Player::initVariables()
 {
 	this->maxVelocityMultiplier = 6.f;
+	this->bullets = std::vector<sf::Sprite*>(30); // Making sure we dont resize often.
+}
+
+void Player::initShip()
+{
+	this->initShipSprite();
+	this->initEngineSprite();
+	this->initEngineAnimationSprite();
 }
 
 void Player::initShipSprite()
@@ -64,7 +78,7 @@ void Player::initShipSprite()
 	auto frame = sf::IntRect(sf::Vector2i(10, 12), sf::Vector2i(30, 28));
 	sprite->setTextureRect(frame);
 	sprite->setScale({ 2.3f, 2.3f });
-	sprite->setPosition({ 480, 860 });
+	sprite->setPosition({ 1000, 1000 });
 
 	this->ship = new TextureNode(texture, sprite, { 0.f, 0.f });
 }
@@ -102,6 +116,7 @@ void Player::initKeyBindings()
 	this->keyBindings[Constants::MOVE_DOWN] = sf::Keyboard::Key::S;
 	this->keyBindings[Constants::MOVE_LEFT] = sf::Keyboard::Key::A;
 	this->keyBindings[Constants::MOVE_RIGHT] = sf::Keyboard::Key::D;
+	this->keyBindings[Constants::SHOOT] = sf::Keyboard::Key::Space;
 }
 
 TextureNode* Player::getEngine()

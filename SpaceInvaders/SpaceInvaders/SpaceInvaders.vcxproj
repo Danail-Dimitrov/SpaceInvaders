@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="Components\PhysicsComponent.cpp" />
     <ClCompile Include="Components\PlayerInputComponent.cpp" />
+    <ClCompile Include="Components\ShootingComponent.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Components\PhysicsComponent.h" />
     <ClInclude Include="Components\PlayerInputComponent.h" />
+    <ClInclude Include="Components\ShootingComponent.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />

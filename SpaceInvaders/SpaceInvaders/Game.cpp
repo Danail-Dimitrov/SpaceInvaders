@@ -71,7 +71,10 @@ void Game::initVariables()
 
 void Game::initPlayer()
 {
-	this->player = new Player(new PlayerInputComponent(), new PhysicsComponent(this->window->getSize()));
+	this->player = new Player(
+		new PlayerInputComponent(), 
+		new PhysicsComponent(this->window->getSize()),
+		new ShootingComponent());
 }
 
 bool Game::isRunning()
