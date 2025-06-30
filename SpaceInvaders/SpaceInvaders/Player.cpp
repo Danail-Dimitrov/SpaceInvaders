@@ -24,6 +24,7 @@ void Player::update(float deltaTime)
 {
 	this->inputComponent->update(*this, this->keyBindings);
 	this->physicsComponent->update(*this, deltaTime);
+	this->updateBullets(deltaTime);
 }
 
 void Player::render(sf::RenderTarget& target)
@@ -67,6 +68,23 @@ void Player::setIdleEngineAnimation()
 void Player::setRunningEngineAnimation()
 {
 	this->getEngineAnimations()->getSprite()->setTextureRect(this->runningEngineAnimationFrame);
+}
+
+void Player::updateBullets(float deltaTime)
+{
+	for (size_t i = 0; i < this->bullets.size(); ++i)
+	{
+		if (this->bullets[i])
+		{
+			if (!this->shootingComponent->updateBullet(*this->bullets[i], deltaTime))
+			{
+				delete this->bullets[i];
+				this->bullets[i] = nullptr;
+			}
+		}
+	}
+
+	this->bullets.erase(std::remove(this->bullets.begin(), this->bullets.end(), nullptr), this->bullets.end());
 }
 
 void Player::initVariables()

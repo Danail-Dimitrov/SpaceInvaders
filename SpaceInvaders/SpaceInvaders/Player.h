@@ -71,6 +71,9 @@ private:
 	sf::IntRect idleEngineAnimationFrame;
 	sf::IntRect runningEngineAnimationFrame;
 
+	// Updates
+	void updateBullets(float deltaTime);
+
 	// Inits
 	void initVariables();
 	void initShip();

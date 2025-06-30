@@ -139,6 +139,7 @@
     <ClCompile Include="Components\PlayerInputComponent.cpp" />
     <ClCompile Include="Components\ShootingComponent.cpp" />
     <ClCompile Include="Constants.cpp" />
+    <ClCompile Include="Enemies\Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Components\PlayerInputComponent.h" />
     <ClInclude Include="Components\ShootingComponent.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Enemies\Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ShipStates\ShipIdle.h" />
