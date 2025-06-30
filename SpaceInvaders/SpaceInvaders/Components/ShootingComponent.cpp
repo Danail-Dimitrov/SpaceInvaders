@@ -15,6 +15,7 @@ sf::Sprite* ShootingComponent::shoot(Player& player)
 {
 	sf::Sprite* bullet = new sf::Sprite(*this->bulletTexture);
 	bullet->setPosition(player.getPosition());
+	bullet->setScale({ 0.8f, 0.8f });
 
 	return bullet;
 }

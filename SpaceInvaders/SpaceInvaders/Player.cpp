@@ -29,6 +29,10 @@ void Player::update(float deltaTime)
 void Player::render(sf::RenderTarget& target)
 {
 	this->ship->render(target);
+
+	for (auto& bullet : this->bullets)
+		if (bullet)
+			target.draw(*bullet);
 }
 
 void Player::addXVelocityMult(float x)
@@ -55,10 +59,22 @@ void Player::shoot()
 	this->bullets.push_back(bullet);
 }
 
+void Player::setIdleEngineAnimation()
+{
+	this->getEngineAnimations()->getSprite()->setTextureRect(this->idleEngineAnimationFrame);
+}
+
+void Player::setRunningEngineAnimation()
+{
+	this->getEngineAnimations()->getSprite()->setTextureRect(this->runningEngineAnimationFrame);
+}
+
 void Player::initVariables()
 {
 	this->maxVelocityMultiplier = 6.f;
 	this->bullets = std::vector<sf::Sprite*>(30); // Making sure we dont resize often.
+	this->idleEngineAnimationFrame = sf::IntRect(sf::Vector2i(14, 79), sf::Vector2i(21, 6));
+	this->runningEngineAnimationFrame = sf::IntRect(sf::Vector2i(110, 79), sf::Vector2i(21, 9));
 }
 
 void Player::initShip()
@@ -78,7 +94,7 @@ void Player::initShipSprite()
 	auto frame = sf::IntRect(sf::Vector2i(10, 12), sf::Vector2i(30, 28));
 	sprite->setTextureRect(frame);
 	sprite->setScale({ 2.3f, 2.3f });
-	sprite->setPosition({ 1000, 1000 });
+	sprite->setPosition({ 500, 800 });
 
 	this->ship = new TextureNode(texture, sprite, { 0.f, 0.f });
 }
@@ -104,8 +120,7 @@ void Player::initEngineAnimationSprite()
 		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
 
 	sf::Sprite* sprite = new sf::Sprite(*texture);
-	auto frame = sf::IntRect(sf::Vector2i(14, 79), sf::Vector2i(21, 6));
-	sprite->setTextureRect(frame);
+	sprite->setTextureRect(this->idleEngineAnimationFrame);
 	sprite->setScale({ 2.3f, 2.3f });
 	this->ship->getChildren()[0]->addChild(texture, sprite, { 5.f, 24.f });
 }

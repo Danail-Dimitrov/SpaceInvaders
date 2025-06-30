@@ -13,6 +13,7 @@
 
 class PlayerInputComponent;
 class PhysicsComponent;
+class ShootingComponent;
 
 class Player
 {
@@ -36,6 +37,10 @@ public:
 
 	// Setters
 	void setPosition(const sf::Vector2f& position) { this->ship->move(position); }
+
+	// Animation
+	void setIdleEngineAnimation();
+	void setRunningEngineAnimation();
 
 	// Getters
 	sf::Vector2f getPosition() const { return this->ship->getPosition(); }
@@ -61,6 +66,10 @@ private:
 	PlayerInputComponent* inputComponent;
 	PhysicsComponent* physicsComponent;
 	ShootingComponent* shootingComponent;
+
+	// Engine Animation
+	sf::IntRect idleEngineAnimationFrame;
+	sf::IntRect runningEngineAnimationFrame;
 
 	// Inits
 	void initVariables();

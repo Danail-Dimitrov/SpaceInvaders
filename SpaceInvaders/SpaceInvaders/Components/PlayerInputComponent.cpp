@@ -3,6 +3,11 @@
 // Instead of making the value so small I can make a cooldown for the keypresses. But I found this soulition to be more simple and suitable for the porpose of this tutorial project.
 const float PlayerInputComponent::VELOCITY = 0.04f;
 
+PlayerInputComponent::PlayerInputComponent()
+{
+	this->initVariables();
+}
+
 void PlayerInputComponent::update(Player& player, std::map<std::string, sf::Keyboard::Key>& keyBindings)
 {
 	bool changed = false;
@@ -30,9 +35,27 @@ void PlayerInputComponent::update(Player& player, std::map<std::string, sf::Keyb
 		changed = true;
 	}
 
-	if (!changed)
+	if (!changed) 
+	{
 		player.resetVelocityMultiplier();
+
+		if (this->wasMovingLastFrame)
+		{
+			this->wasMovingLastFrame = false;
+			player.setIdleEngineAnimation();
+		}
+	}
+	else if (!this->wasMovingLastFrame)
+	{
+		this->wasMovingLastFrame = true;
+		player.setRunningEngineAnimation();
+	}
 
 	if (sf::Keyboard::isKeyPressed(keyBindings[Constants::SHOOT]))
 		player.shoot();
+}
+
+void PlayerInputComponent::initVariables()
+{
+	this->wasMovingLastFrame = false;
 }
