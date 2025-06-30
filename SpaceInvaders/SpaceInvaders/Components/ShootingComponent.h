@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/System/Clock.hpp>
 
 #include "../Player.h"
 
@@ -22,7 +23,9 @@ public:
 
 private:
 	sf::Texture* bulletTexture;
-	float bulletSpeed; // Speed of the bullet in pixels per second
+	float bulletSpeed;
+	sf::Clock shotClock;
+	float shotDelay;
 
 	void initBulletTexture();
 	void initVariables();

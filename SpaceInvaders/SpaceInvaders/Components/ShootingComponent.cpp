@@ -13,6 +13,11 @@ ShootingComponent::~ShootingComponent()
 
 sf::Sprite* ShootingComponent::shoot(Player& player)
 {
+	if (shotClock.getElapsedTime().asSeconds() < shotDelay)
+		return nullptr;
+
+	shotClock.restart();
+
 	sf::Sprite* bullet = new sf::Sprite(*this->bulletTexture);
 	bullet->setPosition(player.getPosition());
 	bullet->setScale({ 0.8f, 0.8f });
@@ -41,4 +46,5 @@ void ShootingComponent::initBulletTexture()
 void ShootingComponent::initVariables()
 {
 	this->bulletSpeed = 50.f;
+	this->shotDelay = 0.2f;
 }
