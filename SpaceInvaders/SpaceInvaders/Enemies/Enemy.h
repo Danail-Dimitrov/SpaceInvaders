@@ -15,6 +15,7 @@ public:
 
 	// Accessors
 	sf::Vector2f getPosition() const { return this->sprite->getPosition(); }
+	sf::FloatRect getGlobalBounds() const { return this->sprite->getGlobalBounds(); }
 
 private:
 	// Sprite

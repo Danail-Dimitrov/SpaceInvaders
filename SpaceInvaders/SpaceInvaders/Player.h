@@ -35,17 +35,20 @@ public:
 	// Shooting
 	void shoot();
 
-	// Setters
+	// Mutators
 	void setPosition(const sf::Vector2f& position) { this->ship->move(position); }
+	void reduceHealth(int amount = 1) { this->health -= amount; }
 
 	// Animation
 	void setIdleEngineAnimation();
 	void setRunningEngineAnimation();
 
-	// Getters
+	// Accessors
 	sf::Vector2f getPosition() const { return this->ship->getPosition(); }
 	sf::Vector2f getVelocity() const { return this->velocity; }
 	sf::Vector2f getSize() const { return this->ship->getSize(); }
+	std::vector<sf::Sprite*>* getBullets() { return &this->bullets; }
+	bool isAlive() const { return this->health > 0; }
 
 private:
 	// Sprites

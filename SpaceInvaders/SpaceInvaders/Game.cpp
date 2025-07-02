@@ -52,7 +52,7 @@ void Game::pollEvents()
 void Game::update(float dt)
 {
 	this->player->update(dt);
-	this->spawnEnemies();
+	this->updateEnemies(dt);
 }
 
 void Game::spawnEnemies()
@@ -71,6 +71,56 @@ void Game::spawnEnemies()
 	}
 }
 
+void Game::updateEnemies(float dt)
+{
+	auto bullets = this->player->getBullets();
+
+	for (auto it = enemies.begin(); it != enemies.end(); )
+	{
+		Enemy* enemy = *it;
+		enemy->update(dt);
+
+		bool isDeleted = false;
+
+		for (auto bulletIt = bullets->begin(); bulletIt != bullets->end(); )
+		{
+			sf::Sprite* bullet = *bulletIt;
+
+			if (bullet->getGlobalBounds().findIntersection(enemy->getGlobalBounds()))
+			{
+				if (!enemy->takeDmgage(45)) // Enemy dead. Hardcoding is bad but for the purposes of learning I don't need the game to be perfecr
+				{
+					delete enemy;
+					it = enemies.erase(it);
+					isDeleted = true;
+				}
+
+				delete bullet;
+				bulletIt = bullets->erase(bulletIt);
+			}
+			else
+			{
+				++bulletIt;
+			}
+		}
+
+		if (isDeleted)
+			continue;
+
+		if (enemy->getPosition().y > 1000.f)
+		{
+			delete enemy;
+			it = enemies.erase(it);
+			this->player->reduceHealth();
+		}
+		else
+		{
+			++it;
+		}
+	}
+
+	this->spawnEnemies();
+}
 
 void Game::render()
 {
@@ -85,7 +135,8 @@ void Game::render()
 void Game::renderEnemies()
 {
 	for (auto& enemy : enemies) 
-		enemy->render(*this->window);
+		if(enemy)
+			enemy->render(*this->window);
 }
 
 void Game::initWindow()
@@ -121,5 +172,5 @@ void Game::initEnemies()
 
 bool Game::isRunning()
 {
-    return this->window->isOpen();
+	return this->window->isOpen() && this->player->isAlive();;
 }

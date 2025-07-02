@@ -38,5 +38,5 @@ void Enemy::initSprite(sf::Texture* texture, sf::Vector2f position)
 void Enemy::initVariables()
 {
 	this->health = 100;
-	this->movementSpeed = 0.8f; 
+	this->movementSpeed = 0.4f; 
 }

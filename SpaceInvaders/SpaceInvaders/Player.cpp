@@ -55,7 +55,7 @@ void Player::addYVelocityMult(float y)
 }
 
 void Player::shoot()
-{
+ {
 	sf::Sprite* bullet = this->shootingComponent->shoot(*this);
 	this->bullets.push_back(bullet);
 }

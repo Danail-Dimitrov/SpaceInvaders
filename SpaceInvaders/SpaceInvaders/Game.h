@@ -30,6 +30,7 @@ private:
 	void pollEvents();
 	void update(float dt);
 	void spawnEnemies();
+	void updateEnemies(float dt);
 
 	// Draws
 	void render();
