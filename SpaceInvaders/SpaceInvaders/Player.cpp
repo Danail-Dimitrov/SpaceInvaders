@@ -93,6 +93,7 @@ void Player::initVariables()
 	this->bullets = std::vector<sf::Sprite*>(30); // Making sure we dont resize often.
 	this->idleEngineAnimationFrame = sf::IntRect(sf::Vector2i(14, 79), sf::Vector2i(21, 6));
 	this->runningEngineAnimationFrame = sf::IntRect(sf::Vector2i(110, 79), sf::Vector2i(21, 9));
+	this->health = 10; 
 }
 
 void Player::initShip()

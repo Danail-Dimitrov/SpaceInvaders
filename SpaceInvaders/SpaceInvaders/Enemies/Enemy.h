@@ -3,7 +3,7 @@
 
 class Enemy {
 public:
-	Enemy(const sf::Texture& texture);
+	Enemy(sf::Texture* texture, sf::Vector2f position);
 	~Enemy();
 
 	void update(float deltaTime);
@@ -13,6 +13,9 @@ public:
 	// Returns if enemy is still alive after taking damage
 	bool takeDmgage(int damage);
 
+	// Accessors
+	sf::Vector2f getPosition() const { return this->sprite->getPosition(); }
+
 private:
 	// Sprite
 	sf::Sprite* sprite;
@@ -20,5 +23,9 @@ private:
 	// Health
 	int health;
 
+	// Movement
+	float movementSpeed;
+
+	void initSprite(sf::Texture* texture, sf::Vector2f position);
 	void initVariables();
 };

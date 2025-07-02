@@ -1,7 +1,8 @@
 #pragma once
+#include <random>
+
 #include "Player.h"
-#include "Components/PhysicsComponent.h"
-#include "Components/PlayerInputComponent.h"
+#include "Enemies/Enemy.h"
 
 class Game
 {
@@ -15,7 +16,11 @@ private:
 	Player* player;
 
 	// Enemies
-	// std::vector<Enemy*> enemies; // Placeholder for future enemy implementation
+	sf::Texture* enemyTexture;
+	std::vector<Enemy*> enemies;
+	sf::Clock enemySpawnClock;
+	float enemySpawnDelay = 0.5f;
+	size_t maxEnemies;
 
 	// Window
 	sf::RenderWindow* window;
@@ -24,14 +29,17 @@ private:
 	// Updates
 	void pollEvents();
 	void update(float dt);
-	
+	void spawnEnemies();
+
 	// Draws
 	void render();
+	void renderEnemies();
 
 	// Inits
 	void initWindow();
 	void initVariables();
 	void initPlayer();
+	void initEnemies();
 
 	// Getters
 	bool isRunning();

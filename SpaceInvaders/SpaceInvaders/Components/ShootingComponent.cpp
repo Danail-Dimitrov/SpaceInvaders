@@ -29,6 +29,7 @@ bool ShootingComponent::updateBullet(sf::Sprite& bullet, float deltaTime)
 {
 	float newY = bullet.getPosition().y - (this->bulletSpeed * deltaTime);
 
+	// Seems like a bad idea to have that logic here. It feels like I should move it to the game class. I will leave it here for now sinse this is just for learning purposes and I don't need it to be perfect.
 	if (newY < 0) // If the bullet is out of the 
 		return false; // Bullet is no longer in the screen
 	
@@ -45,6 +46,6 @@ void ShootingComponent::initBulletTexture()
 
 void ShootingComponent::initVariables()
 {
-	this->bulletSpeed = 50.f;
+	this->bulletSpeed = 1.5f;
 	this->shotDelay = 0.2f;
 }
